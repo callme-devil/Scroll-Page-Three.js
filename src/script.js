@@ -17,6 +17,9 @@ const parameters = {
 
 gui
     .addColor(parameters, 'materialColor')
+    .onChange(()=>{
+        material.color.set(parameters.materialColor)
+    })
 
 /**
  * Base
@@ -30,45 +33,70 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-gltfLoader.load('models/keyboard.glb', processGhost)
+const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
+const mesh = new THREE.Mesh(
+    new THREE.TorusGeometry,(1 , 2 , 32),
+    material
+)
+const mesh2 = new THREE.Mesh(
+    new THREE.TorusGeometry,(1 , 2 , 32),
+    material
+)
+const mesh3 = new THREE.Mesh(
+    new THREE.TorusGeometry,(1 , 2 , 32),
+    material
+)
+scene.add(mesh,mesh2,mesh3)
 
-let model = new THREE.Object3D()
-// let model2 = new THREE.Object3D()
-// let mixer = null
+// gltfLoader.load('models/keyboard.glb', processKeyboard)
+// gltfLoader.load('models/coin.glb', processCoin)
+// gltfLoader.load('models/pixel_space_ship.glb', processSpaceShip)
 
-function processGhost(gltf) {
-    // mixer = new THREE.AnimationMixer(gltf.scene)
-    // const action = mixer.clipAction(gltf.animations[0])
+let modelKeyboard = new THREE.Object3D()
+let modelCoin = new THREE.Object3D()
+let modelSpaceShip = new THREE.Object3D()
 
-    // action.play()
+function processKeyboard(gltf) {
 
-    // gltf.scene.scale.set(.4,.4,.4)
-
-    // gltf.scene.castShadow = true
-    
-    // gltf.scene.traverse(function (node) {
-    //     if(node.isMesh){
-    //         node.castShadow = true
-    //     }
-    // })
-
-    model.add(gltf.scene)
-    model.scale.set(0.2,0.2,0.2)
-    scene.add(model)
+    modelKeyboard.add(gltf.scene)
+    modelKeyboard.scale.set(0.2,0.2,0.2)
+    scene.add(modelKeyboard)
 }
-window.addEventListener('scroll' , ()=>{
-    gsap.to(model.position,{
-        x:1,
-        y:0.2,
-        z:2,
-        duration:1.4
-    })
-    gsap.to(model.rotation,{
-        x:1.7,
-        duration:1.4
-    })
-})
 
+function processCoin(gltf) {
+
+    modelCoin.add(gltf.scene)
+    modelCoin.scale.set(2,2,2)
+    scene.add(modelCoin)
+}
+
+function processSpaceShip(gltf) {
+
+    modelSpaceShip.add(gltf.scene)
+    modelSpaceShip.scale.set(1,1,1)
+    scene.add(modelSpaceShip)
+}
+
+// window.addEventListener('scroll' , ()=>{
+//     gsap.to(model.position,{
+//         x:1,
+//         y:0.2,
+//         z:2,
+//         duration:1.4
+//     })
+//     gsap.to(model.rotation,{
+//         x:1.7,
+//         duration:1.4
+//     })
+// })
+
+
+/**
+ * Lights
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff' , 1)
+directionalLight.position.set(1,1,0)
+scene.add(directionalLight)
 
 /**
  * Sizes
