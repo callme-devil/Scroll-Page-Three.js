@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import gsap from 'gsap'
 
 const gltfLoader = new GLTFLoader()
 
@@ -29,14 +30,13 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-gltfLoader.load('', processGhost)
+gltfLoader.load('models/keyboard.glb', processGhost)
 
 let model = new THREE.Object3D()
 // let model2 = new THREE.Object3D()
 // let mixer = null
 
 function processGhost(gltf) {
-
     // mixer = new THREE.AnimationMixer(gltf.scene)
     // const action = mixer.clipAction(gltf.animations[0])
 
@@ -53,8 +53,21 @@ function processGhost(gltf) {
     // })
 
     model.add(gltf.scene)
+    model.scale.set(0.2,0.2,0.2)
     scene.add(model)
 }
+window.addEventListener('scroll' , ()=>{
+    gsap.to(model.position,{
+        x:1,
+        y:0.2,
+        z:2,
+        duration:1.4
+    })
+    gsap.to(model.rotation,{
+        x:1.7,
+        duration:1.4
+    })
+})
 
 
 /**
