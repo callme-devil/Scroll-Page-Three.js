@@ -33,24 +33,26 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
-const mesh = new THREE.Mesh(
-    new THREE.TorusGeometry,(1 , 2 , 32),
-    material
-)
-const mesh2 = new THREE.Mesh(
-    new THREE.TorusGeometry,(1 , 2 , 32),
-    material
-)
-const mesh3 = new THREE.Mesh(
-    new THREE.TorusGeometry,(1 , 2 , 32),
-    material
-)
-scene.add(mesh,mesh2,mesh3)
+// const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
+// const mesh = new THREE.Mesh(
+//     new THREE.TorusGeometry,(1 , 2 , 32),
+//     material
+// )
+// const mesh2 = new THREE.Mesh(
+//     new THREE.TorusGeometry,(1 , 2 , 32),
+//     material
+// )
+// const mesh3 = new THREE.Mesh(
+//     new THREE.TorusGeometry,(1 , 2 , 32),
+//     material
+// )
+// scene.add(mesh,mesh2,mesh3)
 
-// gltfLoader.load('models/keyboard.glb', processKeyboard)
-// gltfLoader.load('models/coin.glb', processCoin)
-// gltfLoader.load('models/pixel_space_ship.glb', processSpaceShip)
+gltfLoader.load('models/keyboard.glb', processKeyboard)
+gltfLoader.load('models/coin.glb', processCoin)
+gltfLoader.load('models/pixel_space_ship.glb', processSpaceShip)
+
+const objectsDistance = 4
 
 let modelKeyboard = new THREE.Object3D()
 let modelCoin = new THREE.Object3D()
@@ -76,6 +78,13 @@ function processSpaceShip(gltf) {
     modelSpaceShip.scale.set(1,1,1)
     scene.add(modelSpaceShip)
 }
+
+const sectionObjects = [modelKeyboard , modelCoin , modelSpaceShip]
+
+
+modelKeyboard.position.y = - objectsDistance  * 0
+modelCoin.position.y = - objectsDistance * 1
+modelSpaceShip.position.y = - objectsDistance * 2
 
 // window.addEventListener('scroll' , ()=>{
 //     gsap.to(model.position,{
@@ -147,6 +156,12 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Animate Objects
+    for(const object of sectionObjects){
+        object.rotation.x = elapsedTime * 0.1
+        object.rotation.y = elapsedTime * 0.12
+    }
 
     // Render
     renderer.render(scene, camera)
