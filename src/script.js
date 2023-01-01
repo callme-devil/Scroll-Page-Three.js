@@ -62,21 +62,22 @@ let modelSpaceShip = new THREE.Object3D()
 function processKeyboard(gltf) {
 
     modelKeyboard.add(gltf.scene)
-    modelKeyboard.scale.set(0.2,0.2,0.2)
+    modelKeyboard.scale.set(0.1,0.1,0.1)
+    modelKeyboard.rotation.x  = 1.5
     scene.add(modelKeyboard)
 }
 
 function processCoin(gltf) {
 
     modelCoin.add(gltf.scene)
-    modelCoin.scale.set(1.7,1.7,1.7)
+    modelCoin.scale.set(1.4,1.4,1.4)
     scene.add(modelCoin)
 }
 
 function processSpaceShip(gltf) {
 
     modelSpaceShip.add(gltf.scene)
-    modelSpaceShip.scale.set(0.5,0.5,0.5)
+    modelSpaceShip.scale.set(0.2,0.2,0.2)
     scene.add(modelSpaceShip)
 }
 
@@ -84,12 +85,12 @@ const sectionObjects = [modelKeyboard , modelCoin , modelSpaceShip]
 
 
 modelKeyboard.position.y = - objectsDistance  * 0
-modelCoin.position.y = - objectsDistance * 1
-modelSpaceShip.position.y = - objectsDistance * 2.3
+modelCoin.position.y = - objectsDistance * 1.2
+modelSpaceShip.position.y = - objectsDistance * 1.5
 
 modelKeyboard.position.x = 2
 modelCoin.position.x = - 2
-modelSpaceShip.position.x = 2
+modelSpaceShip.position.x = -0.8
 
 // window.addEventListener('scroll' , ()=>{
 //     gsap.to(model.position,{
@@ -176,12 +177,39 @@ window.addEventListener('scroll' , ()=>{
     if(newSection != currentSection){
         currentSection = newSection
 
-        gsap.to(sectionObjects[currentSection].rotation,{
+        // gsap.to(sectionObjects[currentSection].rotation,{
+        //     duration: 1.5,
+        //     ease: 'power2.inOut',
+        //     x: '+=6',
+        //     y: '+=3'
+        // })
+
+        gsap.to(modelKeyboard.rotation,{
             duration: 1.5,
             ease: 'power2.inOut',
-            x: '+=6',
+            y: '+=3',
+        })
+
+        gsap.to(modelCoin.rotation , {
+            duration: 1.5,
+            ease: 'power2.inOut',
             y: '+=3'
         })
+
+        gsap.to(modelSpaceShip.scale,{
+            x:'0.4',
+            y:'0.4',
+            z:'0.4',
+            duration: 4
+        })
+        
+        gsap.to(modelSpaceShip.position,{
+            x: '2',
+            y: -'4' * '2.2',
+            duration: 4
+        })
+
+        gsap.to()
     }
 
 })
@@ -243,8 +271,8 @@ const tick = () =>
 
     // Animate Objects
     for(const object of sectionObjects){
-        object.rotation.x += deltaTime * 0.04
-        object.rotation.y += deltaTime * 0.12
+        // object.rotation.x += deltaTime * 0.04
+        object.rotation.y += deltaTime * 0.32
     }
 
     // Render
