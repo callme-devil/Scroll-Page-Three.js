@@ -165,9 +165,25 @@ window.addEventListener('resize', () =>
  * Scroll
  */
 let scrollY = window.scrollY
+let currentSection = 0
 
 window.addEventListener('scroll' , ()=>{
+
     scrollY = window.scrollY
+
+    const newSection = Math.round(scrollY / sizes.height)
+
+    if(newSection != currentSection){
+        currentSection = newSection
+
+        gsap.to(sectionObjects[currentSection].rotation,{
+            duration: 1.5,
+            ease: 'power2.inOut',
+            x: '+=6',
+            y: '+=3'
+        })
+    }
+
 })
 
 /**
@@ -227,8 +243,8 @@ const tick = () =>
 
     // Animate Objects
     for(const object of sectionObjects){
-        object.rotation.x = elapsedTime * 0.04
-        object.rotation.y = elapsedTime * 0.12
+        object.rotation.x += deltaTime * 0.04
+        object.rotation.y += deltaTime * 0.12
     }
 
     // Render
