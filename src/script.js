@@ -18,7 +18,8 @@ const parameters = {
 gui
     .addColor(parameters, 'materialColor')
     .onChange(()=>{
-        material.color.set(parameters.materialColor)
+        // material.color.set(parameters.materialColor)
+        particlesMaterial.color.set(parameters.materialColor)
     })
 
 /**
@@ -112,9 +113,9 @@ const particlesCount = 300
 const positions = new Float32Array(particlesCount * 3)
 
 for(let i = 0; i < particlesCount; i++){
-    positions[i * 3] = Math.random()
-    positions[i * 3 + 1] = Math.random()
-    positions[i * 3 + 2] = Math.random()
+    positions[i * 3] = (Math.random() - 0.5) * 10
+    positions[i * 3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * sectionObjects.length
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 10
 }
 
 const particlesGeometry = new THREE.BufferGeometry()
