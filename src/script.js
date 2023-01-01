@@ -68,14 +68,14 @@ function processKeyboard(gltf) {
 function processCoin(gltf) {
 
     modelCoin.add(gltf.scene)
-    modelCoin.scale.set(2,2,2)
+    modelCoin.scale.set(1.7,1.7,1.7)
     scene.add(modelCoin)
 }
 
 function processSpaceShip(gltf) {
 
     modelSpaceShip.add(gltf.scene)
-    modelSpaceShip.scale.set(1,1,1)
+    modelSpaceShip.scale.set(0.5,0.5,0.5)
     scene.add(modelSpaceShip)
 }
 
@@ -131,6 +131,14 @@ window.addEventListener('resize', () =>
 })
 
 /**
+ * Scroll
+ */
+let scrollY = window.scrollY
+
+window.addEventListener('scroll' , ()=>{
+    scrollY = window.scrollY
+})
+/**
  * Camera
  */
 // Base camera
@@ -157,9 +165,13 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    // Animate Camera
+    camera.position.y =  - scrollY / sizes.height * objectsDistance
+
+
     // Animate Objects
     for(const object of sectionObjects){
-        object.rotation.x = elapsedTime * 0.1
+        object.rotation.x = elapsedTime * 0.04
         object.rotation.y = elapsedTime * 0.12
     }
 
