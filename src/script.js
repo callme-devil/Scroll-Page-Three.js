@@ -84,7 +84,11 @@ const sectionObjects = [modelKeyboard , modelCoin , modelSpaceShip]
 
 modelKeyboard.position.y = - objectsDistance  * 0
 modelCoin.position.y = - objectsDistance * 1
-modelSpaceShip.position.y = - objectsDistance * 2
+modelSpaceShip.position.y = - objectsDistance * 2.3
+
+modelKeyboard.position.x = 2
+modelCoin.position.x = - 2
+modelSpaceShip.position.x = 2
 
 // window.addEventListener('scroll' , ()=>{
 //     gsap.to(model.position,{
