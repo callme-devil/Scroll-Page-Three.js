@@ -6,6 +6,8 @@ import gsap from 'gsap'
 
 const gltfLoader = new GLTFLoader()
 
+const textureLoader = new THREE.TextureLoader()
+
 /**
  * Debug
  */
@@ -18,7 +20,6 @@ const parameters = {
 gui
     .addColor(parameters, 'materialColor')
     .onChange(()=>{
-        // material.color.set(parameters.materialColor)
         particlesMaterial.color.set(parameters.materialColor)
     })
 
@@ -34,20 +35,8 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-// const material = new THREE.MeshToonMaterial({color: parameters.materialColor})
-// const mesh = new THREE.Mesh(
-//     new THREE.TorusGeometry,(1 , 2 , 32),
-//     material
-// )
-// const mesh2 = new THREE.Mesh(
-//     new THREE.TorusGeometry,(1 , 2 , 32),
-//     material
-// )
-// const mesh3 = new THREE.Mesh(
-//     new THREE.TorusGeometry,(1 , 2 , 32),
-//     material
-// )
-// scene.add(mesh,mesh2,mesh3)
+
+const particleTexture = textureLoader.load('particles/9.png')
 
 gltfLoader.load('models/keyboard.glb', processKeyboard)
 gltfLoader.load('models/coin.glb', processCoin)
@@ -77,7 +66,7 @@ function processCoin(gltf) {
 function processSpaceShip(gltf) {
 
     modelSpaceShip.add(gltf.scene)
-    modelSpaceShip.scale.set(0.2,0.2,0.2)
+    modelSpaceShip.scale.set(0.15,0.15,0.15)
     scene.add(modelSpaceShip)
 }
 
@@ -92,19 +81,6 @@ modelKeyboard.position.x = 2
 modelCoin.position.x = - 2
 modelSpaceShip.position.x = -0.8
 
-// window.addEventListener('scroll' , ()=>{
-//     gsap.to(model.position,{
-//         x:1,
-//         y:0.2,
-//         z:2,
-//         duration:1.4
-//     })
-//     gsap.to(model.rotation,{
-//         x:1.7,
-//         duration:1.4
-//     })
-// })
-
 
 /**
  * Particles
@@ -112,20 +88,33 @@ modelSpaceShip.position.x = -0.8
 // Geometry
 const particlesCount = 600
 const positions = new Float32Array(particlesCount * 3)
+const colors = new Float32Array(particlesCount * 3)
 
 for(let i = 0; i < particlesCount; i++){
     positions[i * 3] = (Math.random() - 0.5) * 15
     positions[i * 3 + 1] = objectsDistance * 0.4 - Math.random() * objectsDistance * sectionObjects.length
     positions[i * 3 + 2] = (Math.random() - 0.5) * 5
+    colors[i * 3] = Math.random()
+    colors[i * 3 + 1] = Math.random()
+    colors[i * 3 + 2] = Math.random()
 }
 
 const particlesGeometry = new THREE.BufferGeometry()
-particlesGeometry.setAttribute('position' , new THREE.BufferAttribute(positions , 3))
+particlesGeometry.setAttribute('position' ,
+    new THREE.BufferAttribute(positions , 3))
+particlesGeometry.setAttribute(
+    'color',
+    new THREE.BufferAttribute(colors , 3)
+)
 // Material
 const particlesMaterial = new THREE.PointsMaterial({
-    color:parameters.materialColor,
+    transparent : true,
+    alphaMap:particleTexture,
+    size: 0.2,
     sizeAttenuation: true,
-    size: 0.02
+    depthWrite : false,
+    blending: THREE.AdditiveBlending,
+    vertexColors: true
 })
 
 const particles = new THREE.Points(particlesGeometry , particlesMaterial)
@@ -197,6 +186,7 @@ window.addEventListener('scroll' , ()=>{
         })
 
         gsap.to(modelSpaceShip.scale,{
+            delay:3.5,
             x:'0.4',
             y:'0.4',
             z:'0.4',
@@ -204,6 +194,7 @@ window.addEventListener('scroll' , ()=>{
         })
         
         gsap.to(modelSpaceShip.position,{
+            delay:1.5,
             x: '2',
             y: -'4' * '2.2',
             duration: 4
