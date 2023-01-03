@@ -77,10 +77,11 @@ modelKeyboard.position.y = - objectsDistance  * 0
 modelCoin.position.y = - objectsDistance * 1.2
 modelSpaceShip.position.y = - objectsDistance * 1.5
 
-modelKeyboard.position.x = 2
+modelKeyboard.position.x = 1
 modelCoin.position.x = - 2
 modelSpaceShip.position.x = -0.8
 
+modelKeyboard.position.z = 2.6
 
 /**
  * Particles
