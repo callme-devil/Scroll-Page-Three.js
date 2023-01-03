@@ -110,13 +110,13 @@ modelSpaceShip.position.x = -0.8
  * Particles
  */
 // Geometry
-const particlesCount = 300
+const particlesCount = 600
 const positions = new Float32Array(particlesCount * 3)
 
 for(let i = 0; i < particlesCount; i++){
-    positions[i * 3] = (Math.random() - 0.5) * 10
-    positions[i * 3 + 1] = objectsDistance * 0.5 - Math.random() * objectsDistance * sectionObjects.length
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+    positions[i * 3] = (Math.random() - 0.5) * 15
+    positions[i * 3 + 1] = objectsDistance * 0.4 - Math.random() * objectsDistance * sectionObjects.length
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 5
 }
 
 const particlesGeometry = new THREE.BufferGeometry()
@@ -209,10 +209,35 @@ window.addEventListener('scroll' , ()=>{
             duration: 4
         })
 
-        gsap.to()
     }
 
 })
+// gsap.to(particles.position,{
+//     x:'2',
+//     y:'2',
+//     duration:3,
+//     repeat: -1,
+// })
+
+// gsap.to(particles.position,{
+//     x:'-2',
+//     y:'-2',
+//     duration:3,
+//     repeat: -1,
+// })
+
+var tl = gsap.timeline({repeat: -1});
+tl.to(particles.position, {x: 2, duration: 3});
+tl.to(particles.position, {x: -1.4, duration: 3});
+
+// tl.reversed( true ); 
+
+// //toggles the orientation
+// tl.reversed( !tl.reversed() ); 
+
+// tl.pause();
+// tl.resume();
+// tl.seek(100);
 
 /**
  * Cursor
@@ -274,6 +299,7 @@ const tick = () =>
         // object.rotation.x += deltaTime * 0.04
         object.rotation.y += deltaTime * 0.32
     }
+    modelKeyboard.rotation.x += deltaTime * 0.7
 
     // Render
     renderer.render(scene, camera)
